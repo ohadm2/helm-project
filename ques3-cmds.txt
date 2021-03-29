@@ -1,0 +1,38 @@
+helm repo add chartmuseum https://chartmuseum.github.io/charts
+
+helm install my-chartmuseum chartmuseum/chartmuseum --version 2.16.0 --set env.open.DISABLE_API=false
+
+export POD_NAME=$(kubectl get pods --namespace default -l "app=chartmuseum" -l "release=my-chartmuseum" -o jsonpath="{.items[0].metadata.name}")
+
+kubectl port-forward $POD_NAME 8080:8080 --namespace default &
+
+helm package ques1-helm-chart
+
+helm package ques2-helm-chart
+
+curl --data-binary "@ques1-helm-chart-0.1.0.tgz" http://localhost:8080/api/charts
+
+curl --data-binary "@ques2-helm-chart-0.1.0.tgz" http://localhost:8080/api/charts
+
+curl http://127.0.0.1:8080/index.yaml
+
+curl http://127.0.0.1:8080/charts/ques1-helm-chart-0.1.0.tgz
+
+curl http://127.0.0.1:8080/charts/ques2-helm-chart-0.1.0.tgz
+
+curl http://localhost:8080/api/charts
+
+helm repo add local http://127.0.0.1:8080
+
+helm repo update
+
+helm repo list
+
+helm install ques1-helm-chart local/ques1-helm-chart
+
+
+
+
+
+
+

@@ -1,0 +1,6 @@
+helm create ques1-helm-chart
+
+vi ques1-helm-chart/values.yaml (change requested settings: image, tag, replicas)
+
+helm install q1 ques1-helm-chart
+

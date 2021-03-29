@@ -1,0 +1,7 @@
+helm create ques2-helm-chart
+
+vi ques2-helm-chart/values.yaml (change requested settings: image, tag, replicas, change service settings from ClusterIP to NodePort)
+
+helm install q2 ques2-helm-chart
+
+kubectl get svc - verify there is a node port for this deployment and use it
